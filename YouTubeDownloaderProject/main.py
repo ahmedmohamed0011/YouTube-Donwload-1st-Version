@@ -4,6 +4,7 @@ from tkinter import ttk
 from tkinter import filedialog
 import threading
 from pytube import YouTube
+from pytube import *
 from pydub import AudioSegment
 
 root = Tk()
@@ -27,25 +28,32 @@ def ytDownloadmp3():
     status.config(text="Status: Downloading....")
     link = linkEntry.get()
     folder = savePathEntry.get()
-    yt = YouTube(link, on_complete_callback=finish)
-    stream = yt.streams.filter(only_audio=True).first()
-    download_path = stream.download(folder)
-    convert_to_mp3(download_path, folder)
+    YouTube(link, on_complete_callback=finish).streams.filter(only_audio='True').first().download(folder)
 
-def convert_to_mp3(download_path, folder):
-    try:
-        base, ext = os.path.splitext(download_path)
-        audio = AudioSegment.from_file(download_path)
-        mp3_path = base + '.mp3'
-        audio.export(mp3_path, format="mp3")
-        os.remove(download_path)
-        status.config(text="Status: Download Finished!", bg="green")
-    except Exception as e:
-        status.config(text=f"Status: Conversion Error - {str(e)}", bg="red")
+
+
+#def ytDownloadmp3():
+#    status.config(text="Status: Downloading....")
+#    link = linkEntry.get()
+#    folder = savePathEntry.get()
+#    yt = YouTube(link, on_complete_callback=finish)
+#    stream = yt.streams.filter(only_audio=True).first()
+#    download_path = stream.download(folder)
+#    convert_to_mp3(download_path, folder)
+
+#def convert_to_mp3(download_path, folder):
+#    try:
+#        base, ext = os.path.splitext(download_path)
+#        audio = AudioSegment.from_file(download_path)
+#        mp3_path = base + '.mp3'
+#        audio.export(mp3_path, format="mp3")
+#        os.remove(download_path)
+#        status.config(text="Status: Download Finished!", bg="green")
+#    except Exception as e:
+#        status.config(text=f"Status: Conversion Error - {str(e)}", bg="red")
 
 def finish(stream=None, chunk=None, file_handle=None, remaining=None):
     status.config(text="Status: Download Finished.!", bg="green")
-
 
 def start_download_thread_mp4():
     threading.Thread(target=ytDownloadmp4).start()
