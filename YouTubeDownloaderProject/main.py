@@ -92,7 +92,7 @@ status.place(rely=1, anchor="sw", relwidth=1)
 
 # CopyRights
 copyrights = Label(root, text="Devolved By : Ahmed Mohamed !", font="Calibre 12 italic" )
-copyrights.place(rely=0.95, anchor="sw", )
+copyrights.place(rely=0.925, anchor="sw", )
 
 
 root.mainloop()
